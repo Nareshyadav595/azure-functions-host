@@ -27,6 +27,10 @@ namespace Microsoft.Azure.WebJobs.Script.Grpc
 
         public Task StartAsync()
         {
+            // This switch must be set before creating the GrpcChannel/HttpClient.
+            AppContext.SetSwitch(
+                "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
             _grpcHost = _grpcHostBuilder.Build();
             _grpcHost.Start();
             return Task.CompletedTask;
